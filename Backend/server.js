@@ -1,37 +1,40 @@
-import express from "express"
-import cors from "cors"
-import { connectDB } from "./config/db.js"
-import foodRouter from "./routes/foodRoute.js"
-import userRouter from "./routes/userRoute.js"
-import 'dotenv/config'
-import cartRouter from "./routes/cartRoute.js" 
+import express from "express";
+import cors from "cors";
+import { connectDB } from "./config/db.js";
+import foodRouter from "./routes/foodRoute.js";
+import userRouter from "./routes/userRoute.js";
+import cartRouter from "./routes/cartRoute.js";
+import ordersRouter from "./routes/orderRoute.js"; 
+import 'dotenv/config';
 
+// App Config
+const app = express();
+const port = 4000;
 
-// app config
-const app = express()
-const port = 4000
+// Middleware
+app.use(express.json());
+app.use(cors());
 
-//middleware
-app.use(express.json())
-app.use(cors())
-
-//DB Connection
+// DB Connection
 connectDB();
 
-//api endpoints
-app.use("/api/food", foodRouter)
+// API Endpoints
+app.use("/api/food", foodRouter);
 app.use("/images", express.static("uploads"));
-app.use("/api/user", userRouter)
-app.use("/api/cart", cartRouter)
+app.use("/api/user", userRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/order", ordersRouter); 
 
-
+// Root Route
 app.get("/", (req, res) => {
-    res.send("API Working")
-})
+    res.send("API Working");
+});
 
+// Start Server
 app.listen(port, () => {
-    console.log(`Server Started on http://localhost:${port}`)
-})
+    console.log(`Server Started on http://localhost:${port}`); 
+});
+
 
 // mongodb+srv://FoodDeliveryApp:<db_password>@cluster0.p3r48.mongodb.net/?
 
